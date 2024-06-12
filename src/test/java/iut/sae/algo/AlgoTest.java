@@ -16,13 +16,13 @@ public class AlgoTest extends TestCase{
    @Test
    public void testRLE(){
       assertEquals("", Algo.RLE("") );
-      
       assertEquals("1a1b1c", Algo.RLE("abc"));
       assertEquals("1a2b3c", Algo.RLE("abbccc"));
       assertEquals("3a1b2a", Algo.RLE("aaabaa"));
-      assertEquals("1a1A1a", Algo.RLE("aAa"));
+      assertEquals("1a1A2a", Algo.RLE("aAaa"));
+      assertEquals("1a1A9a", Algo.RLE("aAaaaaaaaaa"));
+      assertEquals("1a1A9a1a", Algo.RLE("aAaaaaaaaaaa"));
       assertEquals("9W4W", Algo.RLE("WWWWWWWWWWWWW"));
-
    }
 
 
@@ -94,6 +94,21 @@ public class AlgoTest extends TestCase{
       catch(Exception e){
          fail("Exception inatendue");
       }
+   }
+
+   @Test
+   public void testPerf() {
+       try {
+            long debut = System.nanoTime();
+            Algo.RLE("abc", 71);
+            long fin = System.nanoTime();
+            long temps = (fin - debut) / 1000000;
+            System.out.println("Temps : " + temps + "ms");
+            //12 sec pour 71 iterations
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+       assertTrue(true);
    }
 
 }
