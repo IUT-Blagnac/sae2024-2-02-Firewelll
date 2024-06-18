@@ -1,74 +1,88 @@
 package iut.sae.algo;
 
-public class Algo{
-    public static String RLE(String in){
-
-        if (in == null || in.isEmpty()){
+/*
+ * Cette classe fournit des méthodes pour les opérations de codage Run-Length (RLE) et de décodage sur les chaînes.
+ */
+public class Algo {
+    /**
+     * Effectue un codage de longueur d'exécution sur la chaîne d'entrée.
+     *
+     * @param in la chaîne d'entrée
+     * @return   la chaîne codée 
+     */
+    public static String RLE(String in) {
+        if (in == null || in.isEmpty()) {
             return "";
         }
-    
-        StringBuilder resultat = new StringBuilder();
-        char nouv_char = in.charAt(0);
-        short compteur = 1;
-    
+
+        StringBuilder res = new StringBuilder();
+        int counting = 1;
+
         for (int i = 1; i < in.length(); i++) {
-            if (nouv_char != in.charAt(i) || compteur == 9) {
-                resultat.append(compteur).append(nouv_char);
-                nouv_char = in.charAt(i);
-                compteur = 1;
+            if (in.charAt(i) == in.charAt(i - 1)) {
+                counting++;
             } else {
-                compteur++;
+                res.append(counting).append(in.charAt(i - 1));
+                counting = 1;
             }
         }
 
-        resultat.append(compteur).append(nouv_char);
-        return resultat.toString();
+        res.append(counting).append(in.charAt(in.length() - 1));
+        return res.toString();
     }
 
-    public static String RLE(String in, int iteration) throws AlgoException{
-        String resultat = RLE(in);
-        for (short i = 0; i < iteration-1; i++){
-            resultat = RLE(resultat);
-        }
-        return resultat;
-    }
-
-    public static String unRLE(String in) throws AlgoException{
-
-        if (in == null || in.length() == 0){
+    /**
+     * Décode une chaîne qui a été codée à l’aide.
+     *
+     * @param in             la chaîne codée 
+     * @return               la chaîne originale décodée
+     * @throws AlgoException si la chaîne d'entrée est nulle ou vide
+     */
+    public static String unRLE(String in) throws AlgoException {
+        if (in == null || in.isEmpty()) {
             return "";
         }
 
-        String resultat = "";
-        short nb_ite = (short)(in.length());
-        
-        for (short i = 0; i < nb_ite; i+=2){
-            short jMax = (short) Character.getNumericValue(in.charAt(i));
-            for (short j = 0; j < jMax ;j++){
-                resultat += in.charAt(i+1);
+        StringBuilder res = new StringBuilder();
+
+        for (int i = 0; i < in.length(); i += 2) {
+            int compter = Character.getNumericValue(in.charAt(i));
+            char c = in.charAt(i + 1);
+            for (int j = 0; j < compter; j++) {
+                res.append(c);
             }
         }
 
-        return resultat;
+        return res.toString();
     }
 
-    public static String unRLE(String in, int iteration) throws AlgoException{
-        String resultat = unRLE(in);
-        for (short i = 0; i < iteration-1; i++){
-            resultat = unRLE(resultat);
+    /**
+     * Exécute sur la chaîne d'entrée de manière itérative un nombre de fois spécifié.
+     *
+     * @param in             la chaîne d'entrée 
+     * @param iteration      le nombre de fois où appliquer RLE de manière itérative
+     * @return               la chaîne codée de manière itérative
+     * @throws AlgoException si la chaîne d'entrée est nulle ou vide
+     */
+    public static String RLE(String in, int iteration) throws AlgoException {
+        for (int i = 0; i < iteration; i++) {
+            in = RLE(in);
         }
-        return resultat;
+        return in;
     }
 
-    public static void main(String[] args) {
-        try {
-            //System.out.println(RLE("abc"));
-            //System.out.println(unRLE("1a2"));
-            RLE("abc",7);
-        } catch (AlgoException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+    /**
+     * Décode une chaîne qui a été codée à l'aide de manière itérative un nombre de fois spécifié.
+     *
+     * @param in             la chaîne codée 
+     * @param iteration      le nombre de fois pour appliquer le décodage RLE de manière itérative
+     * @return               la chaîne originale décodée de manière itérative
+     * @throws AlgoException si la chaîne d'entrée est nulle ou vide
+     */
+    public static String unRLE(String in, int iteration) throws AlgoException {
+        for (int i = 0; i < iteration; i++) {
+            in = unRLE(in);
         }
+        return in;
     }
 }
-

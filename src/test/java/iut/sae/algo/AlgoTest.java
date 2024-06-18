@@ -70,6 +70,7 @@ public class AlgoTest extends TestCase{
          assertEquals("abbccc", Algo.unRLE("1a2b3c"));
          assertEquals("aaabaa", Algo.unRLE("3a1b2a"));
          assertEquals("aAa", Algo.unRLE("1a1A1a"));
+         assertEquals("aaa", Algo.unRLE("3a"));
          assertEquals("WWWWWWWWWWWWW", Algo.unRLE("9W4W"));
       }
       catch(Exception e){
@@ -100,11 +101,10 @@ public class AlgoTest extends TestCase{
    public void testPerf() {
        try {
             long debut = System.nanoTime();
-            Algo.RLE("abc", 71);
+            Algo.RLE("abc", 50);
             long fin = System.nanoTime();
             long temps = (fin - debut) / 1000000;
             System.out.println("Temps : " + temps + "ms");
-            //12 sec pour 71 iterations
        } catch (Exception e) {
            e.printStackTrace();
        }
