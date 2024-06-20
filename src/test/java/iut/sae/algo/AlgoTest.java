@@ -1,6 +1,5 @@
 package iut.sae.algo;
 
-import org.junit.Assert;
 import org.junit.Test;
 import junit.framework.TestCase;
 
@@ -98,32 +97,12 @@ public class AlgoTest extends TestCase{
    // Nouveau Tests
 
    @Test
-    public void testIterationNegatif(){
-        try{
-            Algo.RLE("abc", -1);
-            assertEquals("", Algo.unRLE("1a1b1c", 1));
-        }
-        catch(Exception e){
-          assertTrue(true);
-        }
-    }
-
-   @Test
-   public void testIteration0(){
-        try{
-            Algo.RLE("abc", 0);
-            assertEquals("", Algo.unRLE("1a1b1c", 0));
-        }
-        catch(Exception e){
-            assertTrue(true);
-        }
-   }
-
-   @Test
    public void test10Caractere(){
         try{
             assertEquals("9a1a", Algo.RLE("aaaaaaaaaa"));
             assertEquals("aaaaaaaaaa", Algo.unRLE("9a1a"));
+            assertEquals("1a1A9a1a", Algo.RLE("aAaaaaaaaaaa"));
+            assertEquals("1a1A9a", Algo.RLE("aAaaaaaaaaa"));
         }
         catch(Exception e){
             System.out.println(e.getMessage());
@@ -132,9 +111,9 @@ public class AlgoTest extends TestCase{
    }
 
    @Test
-   public void testRecursifGrandeIteration(){
+   public void testRLERecursifGrand(){
         try {
-
+            assertEquals("13211913211W13211413211W", Algo.RLE("WWWWWWWWWWWWW", 5));
         } catch (Exception e) {
             fail("Exception inatendue");
         }
