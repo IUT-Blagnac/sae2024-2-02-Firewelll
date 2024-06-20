@@ -1,91 +1,62 @@
 package iut.sae.algo;
 
-
 public class Algo{
+    public static String RLE(String in){
 
-    public static String RLE(String source) {
-
-        if (source == null || source.isEmpty()) {
+        if (in == null || in.isEmpty()){
             return "";
         }
     
-        StringBuilder chaineCodee = new StringBuilder();
-        int length = source.length();
-        int nbCaracteres = 1;
+        StringBuilder resultat = new StringBuilder();
+        char nouv_char = in.charAt(0);
+        short compteur = 1;
     
-        for (int i = 0; i < length; i++) {
-            
-            while (i + 1 < length && source.charAt(i) == source.charAt(i + 1)) {
-                nbCaracteres++;
-                i++;
-    
-                // Gère les cas où le nombre de caractères consécutifs atteint 9
-                if (nbCaracteres == 9) {
-                    chaineCodee.append("9").append(source.charAt(i));
-                    nbCaracteres = 0; 
-                }
+        for (int i = 1; i < in.length(); i++) {
+            if (nouv_char != in.charAt(i) || compteur == 9) {
+                resultat.append(compteur).append(nouv_char);
+                nouv_char = in.charAt(i);
+                compteur = 1;
+            } else {
+                compteur++;
             }
-    
-            // Ajoute le nombre d'occurrences et le caractère à la chaîne encodée finale
-            chaineCodee.append(nbCaracteres).append(source.charAt(i));
-            
-            nbCaracteres = 1;
         }
-    
-        return chaineCodee.toString();
-    }
-    
-        
 
-    public static String RLE(String source, int iteration) throws AlgoException{
-        if (iteration < 1) {
-            throw new AlgoException("L'itération doit être >= 1");
-        }
-        
-        for (int i = 0; i < iteration; i++) {
-            source = RLE(source);
-        }
-        return source;
+        resultat.append(compteur).append(nouv_char);
+        return resultat.toString();
     }
 
+    public static String RLE(String in, int iteration) throws AlgoException{
+        String resultat = RLE(in);
+        for (short i = 0; i < iteration-1; i++){
+            resultat = RLE(resultat);
+        }
+        return resultat;
+    }
 
-    public static String unRLE(String source) throws AlgoException {
+    public static String unRLE(String in) throws AlgoException{
 
-        if (source == null || source.isEmpty()) {
+        if (in == null || in.length() == 0){
             return "";
         }
-    
-        StringBuilder chaineDecodee = new StringBuilder();
-    
-        for (int i = 0; i < source.length(); i++) {
-           
-            char nbCaracteres = source.charAt(i);         
-            int nbLettres = nbCaracteres - '0';               
-            char lettre = source.charAt(i + 1);
-    
-            for (int j = 0; j < nbLettres; j++) {
-                chaineDecodee.append(lettre);
-            }
-    
-            i++; 
-        }
-    
-        return chaineDecodee.toString();
-    }
-    
-    public static String unRLE(String source, int iteration) throws AlgoException {
 
-        if (iteration < 1) {
-            throw new AlgoException("L'itération doit être >= 1");
+        StringBuilder resultat = new StringBuilder();
+        short nb_ite = (short)(in.length());
+        
+        for (short i = 0; i < nb_ite; i+=2){
+            short jMax = (short) Character.getNumericValue(in.charAt(i));
+            for (short j = 0; j < jMax ;j++){
+                resultat.append(in.charAt(i+1));
+            }
         }
-    
-        for (int i = 0; i < iteration; i++) {
-            source = unRLE(source); 
-        }
-    
-        return source;
+
+        return resultat.toString();
     }
-    
-    
+
+    public static String unRLE(String in, int iteration) throws AlgoException{
+        String resultat = unRLE(in);
+        for (short i = 0; i < iteration-1; i++){
+            resultat = unRLE(resultat);
+        }
+        return resultat;
+    }
 }
-
