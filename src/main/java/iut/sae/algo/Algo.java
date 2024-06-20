@@ -3,89 +3,86 @@ package iut.sae.algo;
 
 public class Algo {
 
-    public static String RLE(String source) {
-
-        if (source == null || source.isEmpty()) {
+    public static String RLE(String chaine) {
+        if (chaine == null || chaine.isEmpty()) {
             return "";
         }
-    
-        StringBuilder chaineCodee = new StringBuilder();
-        int length = source.length();
-        int nbCaracteres = 1;
-    
-        for (int i = 0; i < length; i++) {
-            
-            while (i + 1 < length && source.charAt(i) == source.charAt(i + 1)) {
-                nbCaracteres++;
-                i++;
-    
-                // Gère les cas où le nombre de caractères consécutifs atteint 9
-                if (nbCaracteres == 9) {
-                    chaineCodee.append("9").append(source.charAt(i));
-                    nbCaracteres = 0; 
+
+        StringBuilder resultat = new StringBuilder();
+        int compteur = 1;
+        char premierCaractere = chaine.charAt(0);
+
+        for (int i = 1; i < chaine.length(); i++) {
+            if (chaine.charAt(i) == premierCaractere) {
+                compteur++;
+                if (compteur == 9) {
+                    resultat.append(9).append(premierCaractere);
+                    compteur = 0;
                 }
+            } else {
+                if (compteur > 0) {
+                    resultat.append(compteur).append(premierCaractere);
+                }
+                premierCaractere = chaine.charAt(i);
+                compteur = 1;
             }
-    
-            // Ajoute le nombre d'occurrences et le caractère à la chaîne encodée finale
-            chaineCodee.append(nbCaracteres).append(source.charAt(i));
-            
-            nbCaracteres = 1;
         }
-    
-        return chaineCodee.toString();
-    }
-    
-        
 
-    public static String RLE(String source, int iteration) throws AlgoException{
-        if (iteration < 1) {
-            throw new AlgoException("L'itération doit être >= 1");
+        if (compteur > 0) {
+            resultat.append(compteur).append(premierCaractere);
         }
-        
-        for (int i = 0; i < iteration; i++) {
-            source = RLE(source);
-        }
-        return source;
+
+        return resultat.toString();
     }
 
-
-    public static String unRLE(String source) throws AlgoException {
-
-        if (source == null || source.isEmpty()) {
+    public static String unRLE(String chaine) {
+        if (chaine == null || chaine.isEmpty()) {
             return "";
         }
-    
-        StringBuilder chaineDecodee = new StringBuilder();
-    
-        for (int i = 0; i < source.length(); i++) {
-           
-            char nbCaracteres = source.charAt(i);         
-            int nbLettres = nbCaracteres - '0';               
-            char lettre = source.charAt(i + 1);
-    
-            for (int j = 0; j < nbLettres; j++) {
-                chaineDecodee.append(lettre);
-            }
-    
-            i++; 
-        }
-    
-        return chaineDecodee.toString();
-    }
-    
-    public static String unRLE(String source, int iteration) throws AlgoException {
 
-        if (iteration < 1) {
-            throw new AlgoException("L'itération doit être >= 1");
+        StringBuilder resultat = new StringBuilder();
+        int i = 0;
+
+        while (i < chaine.length()) {
+            char caractere = chaine.charAt(i);
+            if (Character.isDigit(caractere)) {
+                int nombre = Character.getNumericValue(caractere);
+                char caractereSuivant = chaine.charAt(i + 1);
+                for (int j = 0; j < nombre; j++) {
+                    resultat.append(caractereSuivant);
+                }
+                i += 2;
+            } else {
+                resultat.append(caractere);
+                i++;
+            }
         }
-    
-        for (int i = 0; i < iteration; i++) {
-            source = unRLE(source); 
-        }
-    
-        return source;
+
+        return resultat.toString();
     }
-    
-    
+
+    public static String RLE(String chaine, int iteration) {
+        String resultat = chaine;
+        for (int i = 0; i < iteration; i++) {
+            resultat = RLE(resultat);
+        }
+        return resultat;
+    }
+
+    public static String unRLE(String chaine, int iteration) {
+        String resultat = chaine;
+        for (int i = 0; i < iteration; i++) {
+            resultat = unRLE(resultat);
+        }
+        return resultat;
+    }
+
+    public static void main(String[] args) {
+        String compressed = RLE("wwwwwwwwwwww");
+        System.out.println("Compressed: " + compressed);  // Output: "9w3w"
+
+        String decompressed = unRLE(compressed);
+        System.out.println("Decompressed: " + decompressed);  // Output: "wwwwwwwwwwww"
+    }
 }
 
