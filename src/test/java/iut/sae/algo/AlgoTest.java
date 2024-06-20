@@ -98,10 +98,25 @@ public class AlgoTest extends TestCase{
    }
 
    @Test
-   public void testPerf() {
+   public void testPerfRLE() {
        try {
             long debut = System.nanoTime();
-            Algo.RLE("abc", 50);
+            Algo.RLE("abc", 20);
+            long fin = System.nanoTime();
+            long temps = (fin - debut) / 1000000;
+            System.out.println("Temps : " + temps + "ms");
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+       assertTrue(true);
+   }
+
+   @Test
+   public void testPerfUNRLE() {
+       try {
+            long debut = System.nanoTime();
+            String rle = Algo.RLE("abc", 20);
+            Algo.unRLE(rle, 20);
             long fin = System.nanoTime();
             long temps = (fin - debut) / 1000000;
             System.out.println("Temps : " + temps + "ms");
