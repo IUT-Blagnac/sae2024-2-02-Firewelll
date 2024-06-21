@@ -187,20 +187,26 @@ WARNING: Les répertoires et fichiers existants devront être complétés et mis
 
 Voici les pré-requis pour exécuter nos codes d'évaluation.
 
-- Java v.x.y.z
-- ...
+- Java 21
+- C
+- Python
 
 === Reproductibilité
 
 - Pour reproduire nos analyses :
-. Installez X
-. Lancez Y
-. ...
+. Télécharger les fichiers AlgoTest.java, test.c, unity_internals.h, unity.c, unity.h et algo.h
+* Java
+. Placer AlgoTest.java dans src\test\java\iut\sae\algo\
+* C
+. test.c, unity_internals.h, unity.c, unity.h et algo.h doivent être dans le même répertoire que le programme à tester.
+. algo.h doit contenir les bonnes signatures, les modifiers si besoin.
 
 === Références
 
-- link:http://xyz[Mon super outil XYZ]
-- ...
+- https://app.codacy.com/organizations/[Codacy]
+- https://findbugs.sourceforge.net/[FindBugs]
+- https://pmd.github.io/[PMD]
+- https://github.com/ThrowTheSwitch/Unity[Unity]
 
 == Généralités, notation de la SAÉ et résultat du concours
 
