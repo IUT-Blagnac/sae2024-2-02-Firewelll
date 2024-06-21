@@ -1,0 +1,1 @@
+# Les tests python ont été réalisés à la main car l'unique code python qui m'était proposé ne comportait qu'une fonction simple à tester.
