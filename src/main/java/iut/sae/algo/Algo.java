@@ -1,102 +1,63 @@
 package iut.sae.algo;
 
-public class Algo {
-    /**
-     * Effectue une compression RLE (Run-Length Encoding) sur la chaîne d'entrée.
-     *
-     * @param in La chaîne d'entrée à compresser.
-     * @return La chaîne compressée en utilisant RLE.
-     */
-    public static String RLE(String in) {
-        // Si la chaîne est vide, retourner directement.
-        if (in.length() < 1)
-            return in;
+public class Algo{
+    public static String RLE(String in){
 
-        // Initialiser le compteur pour les caractères répétés
-        int compteur = 0;
-        // Stocker le premier caractère de la chaîne
-        char last = in.charAt(0);
-        // Utiliser StringBuilder pour construire le résultat compressé
+        if (in == null || in.isEmpty()){
+            return "";
+        }
+    
         StringBuilder resultat = new StringBuilder();
-
-        // Parcourir chaque caractère de la chaîne d'entrée
-        for (int i = 0; i < in.length(); i++) {
-            // Si le caractère actuel est le même que le précédent
-            if (in.charAt(i) == last) {
-                compteur++;
-                // Si le compteur atteint 9, ajouter au résultat et réinitialiser
-                if (compteur == 9) {
-                    resultat.append(compteur).append(last);
-                    compteur = 1; // Réinitialiser le compteur pour le nouveau segment
-                }
-            } else {
-                // Ajouter le compteur et le dernier caractère au résultat
-                resultat.append(compteur).append(last);
-                // Réinitialiser le compteur pour le nouveau caractère
+        char nouv_char = in.charAt(0);
+        short compteur = 1;
+    
+        for (int i = 1; i < in.length(); i++) {
+            if (nouv_char != in.charAt(i) || compteur == 9) {
+                resultat.append(compteur).append(nouv_char);
+                nouv_char = in.charAt(i);
                 compteur = 1;
-                last = in.charAt(i); // Mettre à jour le dernier caractère
+            } else {
+                compteur++;
             }
         }
 
-        // Ajouter les derniers caractères comptés au résultat
-        return resultat + "" + compteur + "" + last;
+        resultat.append(compteur).append(nouv_char);
+        return resultat.toString();
     }
 
-    /**
-     * Effectue plusieurs itérations de compression RLE.
-     *
-     * @param in La chaîne d'entrée à compresser.
-     * @param iteration Le nombre d'itérations de compression à effectuer.
-     * @return La chaîne compressée après les itérations spécifiées.
-     * @throws AlgoException Si une erreur se produit durant la compression.
-     */
-    public static String RLE(String in, int iteration) throws AlgoException {
-        // Initialiser le résultat avec la chaîne d'entrée
-        String resultat = in;
-        // Effectuer la compression pour le nombre d'itérations spécifié
-        for (int i = 0; i < iteration; i++)
+    public static String RLE(String in, int iteration) throws AlgoException{
+        String resultat = RLE(in);
+        for (short i = 0; i < iteration-1; i++){
             resultat = RLE(resultat);
+        }
         return resultat;
     }
 
-    /**
-     * Décompresse une chaîne encodée en RLE.
-     *
-     * @param in La chaîne compressée en RLE à décompresser.
-     * @return La chaîne décompressée.
-     * @throws AlgoException Si une erreur se produit durant la décompression.
-     */
-    public static String unRLE(String in) throws AlgoException {
-        // Utiliser StringBuilder pour construire le résultat décompressé
-        StringBuilder decode = new StringBuilder();
-        // Parcourir la chaîne deux caractères à la fois
-        for (int i = 0; i < in.length() - 1; i += 2) {
-            // Obtenir le nombre de répétitions (premier caractère)
-            int count = Integer.parseInt(String.valueOf(in.charAt(i)));
-            // Obtenir le caractère à répéter (deuxième caractère)
-            char c = in.charAt(i + 1);
-            // Ajouter le caractère au résultat le nombre de fois indiqué par le compteur
-            for (int j = 0; j < count; j++)
-                decode.append(c);
+    public static String unRLE(String in) throws AlgoException{
+
+        if (in == null || in.length() == 0){
+            return "";
         }
-        return decode + "";
+
+        StringBuilder resultat = new StringBuilder();
+        short nb_ite = (short)(in.length());
+        
+        for (short i = 0; i < nb_ite; i+=2){
+            short jMax = (short) Character.getNumericValue(in.charAt(i));
+            for (short j = 0; j < jMax ;j++){
+                resultat.append(in.charAt(i+1));
+            }
+        }
+
+        return resultat.toString();
     }
 
-    /**
-     * Effectue plusieurs itérations de décompression RLE.
-     *
-     * @param in La chaîne compressée à décompresser.
-     * @param iteration Le nombre d'itérations de décompression à effectuer.
-     * @return La chaîne décompressée après les itérations spécifiées.
-     * @throws AlgoException Si une erreur se produit durant la décompression.
-     */
-    public static String unRLE(String in, int iteration) throws AlgoException {
-        // Initialiser le résultat avec la chaîne d'entrée
-        String decode = in;
-        // Effectuer la décompression pour le nombre d'itérations spécifié
-        for (int i = 0; i < iteration; i++) {
-            decode = unRLE(decode);
+    public static String unRLE(String in, int iteration) throws AlgoException{
+        String resultat = unRLE(in);
+        for (short i = 0; i < iteration-1; i++){
+            resultat = unRLE(resultat);
         }
-        return decode;
+        return resultat;
     }
 }
+
