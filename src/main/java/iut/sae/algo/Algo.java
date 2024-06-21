@@ -61,7 +61,7 @@ public class Algo {
         return resultat.toString();
     }
 
-    public static String RLE(String chaine, int iteration) {
+    public static String RLE(String chaine, int iteration) throws AlgoException {
         String resultat = chaine;
         for (int i = 0; i < iteration; i++) {
             resultat = RLE(resultat);
@@ -69,7 +69,7 @@ public class Algo {
         return resultat;
     }
 
-    public static String unRLE(String chaine, int iteration) {
+    public static String unRLE(String chaine, int iteration) throws AlgoException {
         String resultat = chaine;
         for (int i = 0; i < iteration; i++) {
             resultat = unRLE(resultat);
