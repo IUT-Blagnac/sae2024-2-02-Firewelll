@@ -167,10 +167,12 @@ Vous utiliserez le dépôt initial qui vous aura été attribué via classroom p
 [options="header"]
 |==========================================================================
 | #    | lien                                                     | langage  | catégorie 
-| 1    | link:src/main/java/exercice/Exercice1.java[meilleur java]| Java     | Simplicité
-| 2    | link:src/main/java/exercice/Exercice2.java[meilleur C]    | C     | Efficacité
-| ...  | ...                                                      | ...      | ...      
+| 1    | https://github.com/IUT-Blagnac/sae2024-2-02-Firewelll/blob/main/src/main/java/iut/sae/algo/Algo.java[meilleur java]| Java     | Simplicité
+| 2    | https://github.com/IUT-Blagnac/sae2024-2-02-Firewelll/blob/main/src/main/java/iut/sae/algo/Algo.java[meilleur java]| Java     | Efficacité
+| 3    | https://github.com/IUT-Blagnac/sae2024-2-02-Firewelll/blob/main/src/main/java/iut/sae/algo/Algo.java[meilleur java]| Java     | Sobriété
 |==========================================================================
+
+_C'est les mêmes liens._
 
 === Phase 2 (deadline : **vendredi 21 juin 2024** à minuit)
 
